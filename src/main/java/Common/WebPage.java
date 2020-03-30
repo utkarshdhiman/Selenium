@@ -31,7 +31,9 @@ public class WebPage {
     }
 
     public static void Close() {
+
         driver.close();
+        driver = null;
     }
 
     public static void WaitForElementPresent(By by) {
