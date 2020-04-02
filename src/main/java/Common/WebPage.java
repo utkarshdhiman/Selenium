@@ -1,11 +1,19 @@
 package Common;
 
+import Configration.ConfigLoad;
+import Configration.DBConfigrations;
+import Configration.DriverConfigration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,8 +22,25 @@ public class WebPage {
 
     static WebDriver getSeleniumDriver() {
         WebDriverManager.chromedriver().setup();
-        if (driver == null)
-            driver = new ChromeDriver();
+        if (driver == null) {
+            DriverConfigration driverConfig = ConfigLoad.getDriverConfig();
+            switch (driverConfig.getDrivertype()) {
+                case CHROME:
+                    driver = new ChromeDriver();
+                case EDGE:
+                    driver = new EdgeDriver();
+                    break;
+                case IE:
+                    driver = new InternetExplorerDriver();
+                    break;
+                case SAFARI:
+                    driver = new SafariDriver();
+                    break;
+                case FIREFOX:
+                    driver = new FirefoxDriver();
+                    break;
+            }
+        }
         return driver;
     }
 
