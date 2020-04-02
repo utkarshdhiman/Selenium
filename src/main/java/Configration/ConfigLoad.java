@@ -7,8 +7,9 @@ import java.util.Properties;
 
 public class ConfigLoad {
 
-    public static DBConfigrations getDatabaseConfig() {
-        try (InputStream input = new FileInputStream("resources/config/db-config.properties")) {
+    public DBConfigrations getDatabaseConfig() {
+//        try (InputStream input = new FileInputStream("resources/config/db-config.properties")) {
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream("resources/config/db-config.properties")) {
             DBConfigrations db = new DBConfigrations();
 
             Properties prop = new Properties();
@@ -28,9 +29,9 @@ public class ConfigLoad {
         return null;
     }
 
-    public static DriverConfigration getDriverConfig() {
+    public  DriverConfigration getDriverConfig() {
         DriverConfigration driverConfigration = new DriverConfigration();
-        try (InputStream input = new FileInputStream("resources/config/driver-config.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config/driver-config.properties")) {
 
             Properties prop = new Properties();
 

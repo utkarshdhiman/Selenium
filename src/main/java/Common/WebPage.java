@@ -21,12 +21,13 @@ public class WebPage {
     static WebDriver driver;
 
     static WebDriver getSeleniumDriver() {
-        WebDriverManager.chromedriver().setup();
         if (driver == null) {
-            DriverConfigration driverConfig = ConfigLoad.getDriverConfig();
+            DriverConfigration driverConfig = new ConfigLoad().getDriverConfig();
             switch (driverConfig.getDrivertype()) {
                 case CHROME:
+                    WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
+                    break;
                 case EDGE:
                     driver = new EdgeDriver();
                     break;
