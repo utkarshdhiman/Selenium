@@ -1,7 +1,6 @@
 package Common;
 
 import Configration.ConfigLoad;
-import Configration.DBConfigrations;
 import Configration.DriverConfigration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +12,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class WebPage {
     static WebDriver driver;
@@ -69,5 +70,15 @@ public class WebPage {
     public static void WaitForElementPresent(By by, long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, timeout);
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+
+    public static List GetDataFromDB(String query) throws SQLException, ClassNotFoundException {
+        IDataBase db = new DataBase();
+        return db.Select(query);
+    }
+
+    public static void UpdateDB(String query) throws SQLException, ClassNotFoundException {
+        IDataBase db = new DataBase();
+        db.InsertUpdateStatement(query);
     }
 }

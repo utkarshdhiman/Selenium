@@ -9,21 +9,31 @@ import java.util.List;
 import java.util.Map;
 
 public class DataBase implements IDataBase {
+    
     @Override
     public List<Map<String, Object>> Select(String query) throws ClassNotFoundException, SQLException {
-        DBConfigrations configrations = new DBConfigrations();
+        return executeToDB(query);
+    }
 
-        Class.forName(configrations.getClassname());
+    private List<Map<String, Object>> executeToDB(String query) throws ClassNotFoundException, SQLException {
+        DBConfigrations configuration = new DBConfigrations();
+
+        Class.forName(configuration.getClassname());
         //Creating connection to the database
 
-        Connection con = DriverManager.getConnection(configrations.getUrl(), configrations.getUsername(), configrations.getPassword());
+        Connection con = DriverManager.getConnection(configuration.getUrl(), configuration.getUsername(), configuration.getPassword());
         //Creating statement object
+
         Statement st = con.createStatement();
-        String selectquery = query;
-        //Executing the SQL Query and store the results in ResultSet
-        ResultSet rs = st.executeQuery(selectquery);
-        //While loop to iterate through all data and print results
-        List data = resultSetToArrayList(rs);
+        List data = null;
+        //Executing the SQL Query and check for Result set
+        if (st.execute(query)) {
+            ResultSet rs = st.getResultSet();
+            //While loop to iterate through all data and get results
+            data = resultSetToArrayList(rs);
+        } else {
+            st.executeUpdate(query);
+        }
         //Closing DB Connection
         con.close();
         return data;
@@ -45,7 +55,7 @@ public class DataBase implements IDataBase {
     }
 
     @Override
-    public void InsertStatement(String insertcommand) {
-
+    public void InsertUpdateStatement(String insertCommand) throws SQLException, ClassNotFoundException {
+        executeToDB(insertCommand);
     }
 }

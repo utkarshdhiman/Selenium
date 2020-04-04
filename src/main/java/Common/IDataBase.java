@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface IDataBase {
     public List<Map<String,Object>> Select(String query) throws ClassNotFoundException, SQLException;
-    public void InsertStatement(String insertcommand);
+    public void InsertUpdateStatement(String insertCommand) throws SQLException, ClassNotFoundException;
 }
